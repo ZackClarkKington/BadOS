@@ -6,7 +6,7 @@ cd kernel/globals
 rm -rf bin
 mkdir bin
 $CROSS_COMPILER -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c Queue.c -o ./bin/Queue.o
-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c io.c -o ./bin/io.o
+$CROSS_COMPILER -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c io.c -o ./bin/io.o
 cd ../drivers/vga
 rm -rf bin
 mkdir bin
