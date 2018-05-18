@@ -5,21 +5,21 @@ echo 'Compiling kernel...'
 cd kernel/globals
 rm -rf bin
 mkdir bin
-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c Queue.c -o ./bin/Queue.o
+$HOME/opt/cross/bin/x86_64-elf-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c Queue.c -o ./bin/Queue.o
 gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c io.c -o ./bin/io.o
 cd ../drivers/vga
 rm -rf bin
 mkdir bin
-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c text_mode.c -o ./bin/text_mode.o
+$HOME/opt/cross/bin/x86_64-elf-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c text_mode.c -o ./bin/text_mode.o
 cd ../keyboard
 rm -rf bin
 mkdir bin
-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c ps2.c -o ./bin/ps2-unlinked.o
+$HOME/opt/cross/bin/x86_64-elf-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c ps2.c -o ./bin/ps2-unlinked.o
 ld -r ../../globals/bin/io.o ./bin/ps2-unlinked.o -o ./bin/ps2.o
 cd ../../
 rm -rf bin
 mkdir bin
-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c kernel.c -o ./bin/kernel.o
+$HOME/opt/cross/bin/x86_64-elf-gcc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c kernel.c -o ./bin/kernel.o
 ld -r ./drivers/keyboard/bin/ps2.o ./drivers/vga/bin/text_mode.o ./bin/kernel.o -o ../bin/kernel.o
 echo 'Assembling kernel entry'
 nasm kernel_entry.asm -f elf64 -o ../bin/kernel_entry.o
