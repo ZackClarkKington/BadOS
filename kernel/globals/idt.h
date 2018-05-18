@@ -5,11 +5,11 @@
 typedef struct {
     uint16_t offset_1;
     uint16_t segment_selector;
-    uint8_t ist; //Interrupt stack table offset
+    uint8_t zero; //Always zero
     uint8_t flags; //Type and attributes
     uint16_t offset_2;
     uint16_t offset_3;
-    uint32_t zero; //Reserved, always zero
+    uint32_t reserved; //Reserved
 }IDTDescr;
 
 typedef struct {
