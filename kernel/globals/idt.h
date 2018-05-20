@@ -17,6 +17,8 @@ typedef struct {
     uint64_t base; //Base address of IDT
 }IDT_r;
 
+#define KERNEL_SEGMENT_SELECTOR 0x08
+
 IDTDescr idt[256];
 IDT_r idt_register;
 
