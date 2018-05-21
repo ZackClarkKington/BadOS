@@ -14,9 +14,47 @@ void init_isr_gates(){
     for(int i = 0; i < 35; i++){
         set_idt_gate(i, (uintptr_t)all_isr[i], KERNEL_SEGMENT_SELECTOR, 0x8e);
     }
+    
+    load_idtr();
 }
 
-void isr_handler(){
+void isr_handler(registers_store r){
     print_ln("Interrupt received");
-    //TODO: Define exception messages and print appropriate message to term
+    char * interrupt_messages[] = {
+        "DivByZeroException",
+        "DebugException",
+        "NMIException", //Non-maskable Interrupt,
+        "Breakpoint",
+        "Overflow Detected",
+        "OutOfBoundsException",
+        "InvalidOpcodeException",
+        "No Coprocessor",
+        "DoubleFaultException",
+        "Co-processor segment over-run detected",
+        "BadTSSException",
+        "SegmentNotPresentException",
+        "StackFaultException",
+        "GPFaultException", //General protection fault
+        "Page Fault",
+        "Unknown Interrupt",
+        "Coprocessor Fault",
+        "Alignment Check",
+        "Machine Check",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved"
+    };
+    
+    print_ln("Received Interrupt");
+    print_ln(interrupt_messages[registers_store.interrupt_num]);
 }
