@@ -32,4 +32,6 @@ nasm -f bin boot_sector.asm -o ../bin/boot_sector.bin
 cd ../bin
 echo 'Constructing OS image'
 cat boot_sector.bin kernel.bin > os-image.bin
+dd if=/dev/zero of=./os-image.img bs=1024 count=1440
+dd if=./os-image.bin of=./os-image.img bs=512 conv=notrunc seek=0
 cd ..
