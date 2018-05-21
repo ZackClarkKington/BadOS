@@ -6,7 +6,7 @@ jmp word 0x0000:start
 
 load_kernel:
     mov bx, KERNEL_OFFSET
-    mov dh, 2
+    mov dh, 35 ;Read 35 sectors to give us a generous space for the kernel
     mov dl, [BOOT_DRIVE]
     call load_from_disk
     ret
