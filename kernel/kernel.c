@@ -6,5 +6,5 @@ void _start() {
     print_ln("Executing Kernel");
     init_keyboard();
     char to_print = get_char();
-    print_char(to_print, get_index(0,1));
+    print_char(to_print, 0,1, 1);
 }
