@@ -2,11 +2,25 @@
 #define TEXT_MODE_H
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef enum {
     BLACK = 0,
     WHITE = 15
 }color;
+
+typedef struct {
+    size_t x;
+    size_t y;
+}cursor;
+
+typedef struct {
+    char screen_buff[25][80];
+    cursor c;
+    size_t width;
+    size_t height;
+    uint8_t text_color;
+}display;
 
 void update_display(void);
 void print_char(char, size_t, size_t, bool);
