@@ -1,6 +1,7 @@
 #ifndef ISR_H
 #define ISR_H
 
+#include <stdint.h>
 extern void isr0();
 extern void isr1();
 extern void isr2();
@@ -37,13 +38,30 @@ extern void isr32();
 extern void isr33();
 extern void isr34();
 
+extern void irq0();
+extern void irq1();
+extern void irq2();
+extern void irq3();
+extern void irq4();
+extern void irq5();
+extern void irq6();
+extern void irq7();
+extern void irq8();
+extern void irq9();
+extern void irq10();
+extern void irq11();
+extern void irq12();
+extern void irq13();
+extern void irq14();
+extern void irq15();
+
 typedef struct {
     uint64_t ds;
     uint64_t rax, rbx, rcx, rdx, rbp, rsi, rdi, r8, r9, r10, r11, r12, r13, r14, r15;
     uint64_t interrupt_num, err_code;
     uint32_t eip, cs, eflags, useresp, ss;
 }registers_store;
-typedef void (*isr)(void);
+typedef void (*isr)(registers_store);
 
 void init_isr_gates();
 void isr_handler(registers_store r);
