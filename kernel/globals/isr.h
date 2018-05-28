@@ -47,5 +47,5 @@ typedef void (*isr)(void);
 
 void init_isr_gates();
 void isr_handler(registers_store r);
-
+void irq_handler(registers_store r);
 #endif //ISR_H

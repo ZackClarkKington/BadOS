@@ -1,6 +1,7 @@
 #include "isr.h"
 #include "idt.h"
 #include "../drivers/vga/textmode.h"
+#include "io.h"
 
 void init_isr_gates(){
     
@@ -15,6 +16,22 @@ void init_isr_gates(){
         set_idt_gate(i, (uintptr_t)all_isr[i], KERNEL_SEGMENT_SELECTOR, 0x8e);
     }
     
+    //Remap PIC
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+    outb(0x21, 0x20);
+    outb(0xA1, 0x28);
+    outb(0x21, 0x04);
+    outb(0xA1, 0x02);
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+    outb(0x21, 0x0);
+    outb(0xA1, 0x0);
+
+    for(int i = 35; i < 51; i++){
+        set_idt_gate(i, (uintptr_t)all_irq[i - 35], KERNEL_SEGMENT_SELECTOR, 0x8e);
+    }
+
     load_idtr();
 }
 
@@ -57,4 +74,11 @@ void isr_handler(registers_store r){
     
     print_ln("Received Interrupt");
     print_ln(interrupt_messages[registers_store.interrupt_num]);
+}
+
+void irq_handler(registers_store r){
+    if(r.interrupt_num >= 40) outb(0xA0, 0x20);
+    outb(0x20, 0x20);
+
+    if(all_isr[r.interrupt_num] != 0) all_isr[r.interrupt_num](r);
 }
