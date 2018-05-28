@@ -2,25 +2,28 @@
 rm -rf bin
 mkdir bin
 echo 'Compiling kernel...'
-cd kernel/globals
+cd kernel/drivers/vga
+rm -rf bin
+mkdir bin
+$CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c text_mode.c -o ./bin/text_mode.o
+cd ../../globals
 rm -rf bin
 mkdir bin
 $CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c Queue.c -o ./bin/Queue.o
 $CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c io.c -o ./bin/io.o
-cd ../drivers/vga
+$CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c idt.c -o ./bin/idt.o
+$CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c isr.c -o ./bin/isr.o
+nasm interrupt.asm -f elf64 -Fdwarf -o ./bin/interrupt.o
+ld -r ./bin/idt.o ./bin/isr.o ./bin/interrupt.o -o ./bin/interrupts.o
+cd ../drivers/keyboard
 rm -rf bin
 mkdir bin
-$CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c text_mode.c -o ./bin/text_mode.o
-cd ../keyboard
-rm -rf bin
-mkdir bin
-$CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c ps2.c -o ./bin/ps2-unlinked.o
-ld -r ../../globals/bin/io.o ./bin/ps2-unlinked.o -o ./bin/ps2.o
+$CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c ps2.c -o ./bin/ps2.o
 cd ../../
 rm -rf bin
 mkdir bin
 $CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c kernel.c -o ./bin/kernel.o
-ld -r ./drivers/keyboard/bin/ps2.o ./drivers/vga/bin/text_mode.o ./bin/kernel.o -o ../bin/kernel.o
+ld -r ./globals/bin/interrupts.o ./globals/bin/io.o ./drivers/keyboard/bin/ps2.o ./drivers/vga/bin/text_mode.o ./bin/kernel.o -o ../bin/kernel.o
 echo 'Assembling kernel entry'
 nasm kernel_entry.asm -f elf64 -Fdwarf -o ../bin/kernel_entry.o
 cd ../bin
