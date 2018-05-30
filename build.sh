@@ -7,6 +7,7 @@ rm -rf bin
 mkdir bin
 $CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c Queue.c -o ./bin/Queue.o
 $CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c io.c -o ./bin/io.o
+$CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c assert.c -o ./bin/assert.o
 cd ../drivers/vga
 rm -rf bin
 mkdir bin
@@ -20,7 +21,7 @@ cd ../../
 rm -rf bin
 mkdir bin
 $CROSS_COMPILER -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-pie -c kernel.c -o ./bin/kernel.o
-ld -r ./drivers/keyboard/bin/ps2.o ./drivers/vga/bin/text_mode.o ./bin/kernel.o -o ../bin/kernel.o
+ld -r ./globals/bin/assert.o ./drivers/keyboard/bin/ps2.o ./drivers/vga/bin/text_mode.o ./bin/kernel.o -o ../bin/kernel.o
 echo 'Assembling kernel entry'
 nasm kernel_entry.asm -f elf64 -Fdwarf -o ../bin/kernel_entry.o
 cd ../bin
