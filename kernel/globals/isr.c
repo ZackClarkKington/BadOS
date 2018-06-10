@@ -2,6 +2,7 @@
 #include "idt.h"
 #include "../drivers/vga/text_mode.h"
 #include "io.h"
+#include "assert.h"
 
 isr all_isr[] = {
     isr0, isr1, isr2, isr3, isr4, isr5, isr6, isr7, isr8, isr9,
@@ -18,6 +19,10 @@ isr all_irq[] = {
 void init_isr_gates(){
     for(int i = 0; i < 35; i++){
         set_idt_gate(i, (uintptr_t)all_isr[i], KERNEL_SEGMENT_SELECTOR, 0x8e);
+        assert((idt[i].offset_1 == (uintptr_t)all_isr[i] & 0xffff), "IDT Offset 1 not correctly set");
+        assert((idt[i].segment_selector == KERNEL_SEGMENT_SELECTOR), "IDT segment selector not set to KERNEL_SEGMENT_SELECTOR");
+        assert((idt[i].zero == 0), "IDT zero value not equal to 0");
+        assert((idt[i].flags == 0x8e), "IDT flags not correctly set");
     }
     
     //Remap PIC

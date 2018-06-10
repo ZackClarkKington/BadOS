@@ -1,7 +1,10 @@
 #include "idt.h"
+#include "assert.h"
 
 void set_idt_gate(uint8_t index, uintptr_t base, uint16_t selector, uint8_t flags){
 	idt[index].offset_1 = base & 0xffff;
+	assert((index == 0), "!0");
+	assert((idt[index].offset_1 == base & 0xffff), "IDT offset incorrectly set inside set_idt_gate");
 	idt[index].segment_selector = selector;
 	idt[index].zero = 0;
 	idt[index].flags = flags;
