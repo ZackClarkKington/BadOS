@@ -1,6 +1,6 @@
 #include "isr.h"
 #include "idt.h"
-#include "../drivers/vga/textmode.h"
+#include "../drivers/vga/text_mode.h"
 
 void init_isr_gates(){
     
@@ -9,7 +9,7 @@ void init_isr_gates(){
         isr10, isr11, isr12, isr13, isr14, isr15, isr16, isr17, isr18, isr19,
         isr20, isr21, isr22, isr23, isr24, isr25, isr26, isr27, isr28, isr29,
         isr30, isr31, isr32, isr33, isr34    
-    }
+    };
     
     for(int i = 0; i < 35; i++){
         set_idt_gate(i, (uintptr_t)all_isr[i], KERNEL_SEGMENT_SELECTOR, 0x8e);
@@ -19,7 +19,6 @@ void init_isr_gates(){
 }
 
 void isr_handler(registers_store r){
-    print_ln("Interrupt received");
     char * interrupt_messages[] = {
         "DivByZeroException",
         "DebugException",
@@ -56,5 +55,5 @@ void isr_handler(registers_store r){
     };
     
     print_ln("Received Interrupt");
-    print_ln(interrupt_messages[registers_store.interrupt_num]);
+    print_ln(interrupt_messages[r.interrupt_num]);
 }
