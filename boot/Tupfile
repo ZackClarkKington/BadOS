@@ -1,0 +1,5 @@
+include_rules
+: boot_sector.asm |> nasm -f bin %f -o %o |> %B.bin
+: boot_sector.bin ../kernel/kernel.bin |> cat %f > %o |> os-image.bin
+: os-image.bin |> dd if=/dev/zero of=%o bs=1024 count=1440 |> empty-%B.img
+: empty-os-image.img os-image.bin |> dd if=os-image.bin of=%o bs=512 conv=notrunc seek=0 |> os-image.img 

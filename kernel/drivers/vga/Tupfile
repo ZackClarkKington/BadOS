@@ -1,0 +1,2 @@
+include_rules
+: foreach *.c |> $(CROSS_COMPILER) $(C_FLAGS) %f -o %o |> %B.o
