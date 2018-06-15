@@ -1,0 +1,5 @@
+include_rules
+: kernel.c |> $(CROSS_COMPILER) $(C_FLAGS) %f -o %o |> %B-unlinked.o
+: globals/interrupts.o globals/itoa.o globals/strutils.o globals/assert.o drivers/keyboard/ps2.o drivers/vga/text_mode.o kernel-unlinked.o |> ld -r %f -o %o |> kernel.o
+: kernel_entry.asm |> nasm %f -f elf64 -Fdwarf -o %o |> kernel_entry.o
+: kernel_entry.o kernel.o |> ld -o %o -Ttext 0x1000 %f --oformat binary |> kernel.bin

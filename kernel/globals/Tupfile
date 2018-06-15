@@ -1,0 +1,4 @@
+include_rules
+: foreach *.c |> $(CROSS_COMPILER) $(C_FLAGS) %f -o %o |> %B.o
+: interrupt.asm |> nasm %f -f elf64 -Fdwarf -o %o |> interrupt.o
+: idt.o isr.o interrupt.o |> ld -r %f -o %o |> interrupts.o

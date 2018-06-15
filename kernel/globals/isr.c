@@ -3,6 +3,7 @@
 #include "../drivers/vga/text_mode.h"
 #include "io.h"
 #include "assert.h"
+#include "itoa.h"
 
 isr all_isr[] = {
     isr0, isr1, isr2, isr3, isr4, isr5, isr6, isr7, isr8, isr9,
@@ -45,7 +46,6 @@ void init_isr_gates(){
 }
 
 void isr_handler(registers_store r){
-    print_ln("Interrupt received");
     char * interrupt_messages[] = {
         "DivByZeroException",
         "DebugException",

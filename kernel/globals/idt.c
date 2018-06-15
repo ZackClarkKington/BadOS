@@ -3,8 +3,7 @@
 
 void set_idt_gate(uint8_t index, uintptr_t base, uint16_t selector, uint8_t flags){
 	idt[index].offset_1 = base & 0xffff;
-	assert((index == 0), "!0");
-	assert((idt[index].offset_1 == base & 0xffff), "IDT offset incorrectly set inside set_idt_gate");
+    assert((idt[index].offset_1 == base & 0xffff), "IDT offset incorrectly set inside set_idt_gate");
 	idt[index].segment_selector = selector;
 	idt[index].zero = 0;
 	idt[index].flags = flags;
@@ -15,5 +14,5 @@ void set_idt_gate(uint8_t index, uintptr_t base, uint16_t selector, uint8_t flag
 void load_idtr(){
 	idt_register.base = (uintptr_t) &idt;
 	idt_register.limit = 256 * sizeof(IDTDescr) - 1;
-	asm volatile ("lidt (%0)" : : "r" (&idt_register));
+    asm volatile ("lidt (%0)" : : "r" (&idt_register));
 }

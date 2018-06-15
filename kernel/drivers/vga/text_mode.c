@@ -48,6 +48,7 @@ void print_str(char* str, size_t start_x, size_t y){
     for(size_t i = 0; i < screen.width && str[i] != '\0'; i++){
         print_char(str[i], start_x + i, y, 0);
     }
+
     update_display();
 }
 

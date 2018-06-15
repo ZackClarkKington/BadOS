@@ -3,6 +3,9 @@
 #include "globals/isr.h"
 #include "globals/io.h"
 #include "globals/assert.h"
+#include "globals/itoa.h"
+#include "globals/strutils.h"
+
 void _start() {
     init_display();
     print_ln("Executing Kernel");
@@ -15,6 +18,13 @@ void _start() {
     assert((true == false), "Expected fail, assert working");
     init_isr_gates();
     /*init_keyboard();
+    assert((true == false), "Expected fail, true != false");
+
+    char* one = "2";
+    itoa(1, one, 10);
+    assert(str_equal(one, "1"), "itoa(1) != \"1\"");
+
+    init_keyboard();
     char to_print = get_char();
     print_char(to_print, 0,1, 1);
     */

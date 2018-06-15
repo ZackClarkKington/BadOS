@@ -1,4 +1,6 @@
 *.bin
 *.o
 ._*
-.img
+*.img
+Tuprules.tup
+.tup
